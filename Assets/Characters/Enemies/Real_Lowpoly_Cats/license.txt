@@ -1,0 +1,11 @@
+Model Information:
+* title:	Real Lowpoly Cats
+* source:	https://sketchfab.com/3d-models/real-lowpoly-cats-45c6dd8b21454b83a8c7758ecbb790e0
+* author:	0Lift (https://sketchfab.com/0Lift)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Real Lowpoly Cats" (https://sketchfab.com/3d-models/real-lowpoly-cats-45c6dd8b21454b83a8c7758ecbb790e0) by 0Lift (https://sketchfab.com/0Lift) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
