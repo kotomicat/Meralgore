@@ -21,14 +21,7 @@ public class Revolver : Weapon
     private Quaternion reloadRotation;
 
     [Header("Revolver")]
-    
-    [SerializeField] float range = 10f;
-    Camera mainCamera;
     [SerializeField] CameraController cameraController;
-
-    [SerializeField] int maxAmmo;
-    private int currentAmmo;
-    private bool reload = false;
 
     private Coroutine showTraceCoroutine;
     private Coroutine reloadCoroutine;
@@ -57,8 +50,6 @@ public class Revolver : Weapon
         enemiesBuffer = new Collider[maxColliders];
 
         currentAmmo = maxAmmo;
-
-        mainCamera = Camera.main;
 
         reloadRotation = Quaternion.Euler(0, 270, reloadRotationAngle);
         shootRotation = Quaternion.Euler(0, 270, shootRotationAngle);
@@ -105,6 +96,9 @@ public class Revolver : Weapon
                 health.Damage(damage);
             }
 
+            SpawnBulletHole(hit.normal, endPoint, hit.transform);
+
+            StartCoroutine(ShowTrace(firePoint.position, endPoint));
         }
         else
         {
@@ -229,6 +223,8 @@ public class Revolver : Weapon
     }
     private IEnumerator ShowTrace(params Vector3[] points) // анимация трассировки выстрела
     {
+        lineRenderer.enabled = true;
+
         lineRenderer.positionCount = points.Length;
 
         float width = 0.2f;

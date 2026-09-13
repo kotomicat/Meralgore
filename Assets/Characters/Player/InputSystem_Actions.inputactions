@@ -115,6 +115,16 @@
                     "interactions": "",
                     "initialStateCheck": false,
                     "priority": 0
+                },
+                {
+                    "name": "Weapon Slot 4",
+                    "type": "Button",
+                    "id": "22d3d8ce-2021-415a-91d5-07573ea27da0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 }
             ],
             "bindings": [
@@ -445,6 +455,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Weapon Slot 3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "105d58fc-e910-43a8-99ee-bd83b498e21b",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Weapon Slot 4",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

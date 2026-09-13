@@ -33,8 +33,10 @@ public class PlayerInputController : MonoBehaviour
 
         action.Player.Reload.started += OnReload;
 
-        action.Player.WeaponSlot1.performed += WeaponSlotOne;
-        action.Player.WeaponSlot2.performed += WeaponSlotTwo;
+        action.Player.WeaponSlot1.performed += WeaponSlot1;
+        action.Player.WeaponSlot2.performed += WeaponSlot2;
+        action.Player.WeaponSlot3.performed += WeaponSlot3;
+        action.Player.WeaponSlot4.performed += WeaponSlot4;
     }
 
     private void OnDisable()
@@ -52,8 +54,10 @@ public class PlayerInputController : MonoBehaviour
 
         action.Player.Reload.started -= OnReload;
 
-        action.Player.WeaponSlot1.performed -= WeaponSlotOne;
-        action.Player.WeaponSlot2.performed -= WeaponSlotTwo;
+        action.Player.WeaponSlot1.performed -= WeaponSlot1;
+        action.Player.WeaponSlot2.performed -= WeaponSlot2;
+        action.Player.WeaponSlot3.performed -= WeaponSlot3;
+        action.Player.WeaponSlot4.performed -= WeaponSlot4;
     }
 
     // ходьба
@@ -75,8 +79,10 @@ public class PlayerInputController : MonoBehaviour
     void OnReload(InputAction.CallbackContext obj) => weaponSwitcher.weapon.Reload();
 
     // смена оружия
-    void WeaponSlotOne(InputAction.CallbackContext obj) => weaponSwitcher.ChangeWeapon(0);
-    void WeaponSlotTwo(InputAction.CallbackContext obj) => weaponSwitcher.ChangeWeapon(1);
+    void WeaponSlot1(InputAction.CallbackContext obj) => weaponSwitcher.ChangeWeapon(0);
+    void WeaponSlot2(InputAction.CallbackContext obj) => weaponSwitcher.ChangeWeapon(1);
+    void WeaponSlot3(InputAction.CallbackContext obj) => weaponSwitcher.ChangeWeapon(2);
+    void WeaponSlot4(InputAction.CallbackContext obj) => weaponSwitcher.ChangeWeapon(3);
 
     void ReadJumpInput()
     {

@@ -1,0 +1,11 @@
+Model Information:
+* title:	VXR-60 Modern Modular LMG
+* source:	https://sketchfab.com/3d-models/vxr-60-modern-modular-lmg-295aa3932b8641b591de405107c3a20b
+* author:	JaNaZa_ZaIb (https://sketchfab.com/JaNaZa_ZaIb)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "VXR-60 Modern Modular LMG" (https://sketchfab.com/3d-models/vxr-60-modern-modular-lmg-295aa3932b8641b591de405107c3a20b) by JaNaZa_ZaIb (https://sketchfab.com/JaNaZa_ZaIb) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
