@@ -3,18 +3,24 @@ using System.Collections.Specialized;
 using System.Net;
 using UnityEngine;
 
-public class rastraycastAttackLogic : MonoBehaviour
+public class raycastAttackLogic : MonoBehaviour
 {
-    private Weapon weapon;
+    [SerializeField] private Weapon weapon;
+    [SerializeField] private WeaponConfig config;
+    [SerializeField] private BulletTrace tracePrefab;
 
     private void Awake()
     {
         weapon = GetComponent<Weapon>();
     }
-    void TryHit(Vector3 origin, Vector3 direction,float range)
+    void TryHit(Vector3 originPosition, Vector3 direction,float range)
     {
+        if (weapon.reload)
+        {
+            return;
+        }
 
-        if (Physics.Raycast(origin, direction, out RaycastHit hit, range))
+        if (Physics.Raycast(originPosition, direction, out RaycastHit hit, range))
         {
             Vector3 endPoint = hit.point;
             Transform hitTransform = hit.collider.transform;
@@ -24,28 +30,19 @@ public class rastraycastAttackLogic : MonoBehaviour
             {
                 health.Damage(weapon.damage);
             }
-
             weapon.SpawnBulletHole(hit.normal, endPoint, hitTransform); 
         }
-
-        StartCoroutine(ShowTrace());
+        // Тут с монетками надо подумать, так что пока не доделываю
+        //else if (Physics.SphereCast(originPosition, config.CoinHitRadius, direction, out RaycastHit sphereHit, config.CoinCastRange))
+        //{
+        //    Transform target = (Near)
+        //}
+        SpawnTrace(originPosition, direction);
     }
-
-    IEnumerator ShowTrace (params Vector3[] points)
+    private void SpawnTrace(params Vector3[] points)
     {
-        LineRenderer lineRenderer = GetComponent<LineRenderer>();
-
-        return null;
+        BulletTrace trace = Instantiate(tracePrefab);
+        trace.Show(points);
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }
