@@ -211,6 +211,16 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""Kick"",
+                    ""type"": ""Button"",
+                    ""id"": ""af41dd58-04c6-4e8e-8947-fa2cd8d7fd9a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -552,6 +562,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Weapon Slot 4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bdfdbc9a-d29b-4212-836e-e67a27672f72"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Kick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1161,6 +1182,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_WeaponSlot2 = m_Player.FindAction("Weapon Slot 2", throwIfNotFound: true);
         m_Player_WeaponSlot3 = m_Player.FindAction("Weapon Slot 3", throwIfNotFound: true);
         m_Player_WeaponSlot4 = m_Player.FindAction("Weapon Slot 4", throwIfNotFound: true);
+        m_Player_Kick = m_Player.FindAction("Kick", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1266,6 +1288,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_WeaponSlot2;
     private readonly InputAction m_Player_WeaponSlot3;
     private readonly InputAction m_Player_WeaponSlot4;
+    private readonly InputAction m_Player_Kick;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1325,6 +1348,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/WeaponSlot4".
         /// </summary>
         public InputAction @WeaponSlot4 => m_Wrapper.m_Player_WeaponSlot4;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Kick".
+        /// </summary>
+        public InputAction @Kick => m_Wrapper.m_Player_Kick;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1387,6 +1414,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @WeaponSlot4.started += instance.OnWeaponSlot4;
             @WeaponSlot4.performed += instance.OnWeaponSlot4;
             @WeaponSlot4.canceled += instance.OnWeaponSlot4;
+            @Kick.started += instance.OnKick;
+            @Kick.performed += instance.OnKick;
+            @Kick.canceled += instance.OnKick;
         }
 
         /// <summary>
@@ -1434,6 +1464,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @WeaponSlot4.started -= instance.OnWeaponSlot4;
             @WeaponSlot4.performed -= instance.OnWeaponSlot4;
             @WeaponSlot4.canceled -= instance.OnWeaponSlot4;
+            @Kick.started -= instance.OnKick;
+            @Kick.performed -= instance.OnKick;
+            @Kick.canceled -= instance.OnKick;
         }
 
         /// <summary>
@@ -1818,6 +1851,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnWeaponSlot4(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Kick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnKick(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

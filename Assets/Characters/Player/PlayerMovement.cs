@@ -62,24 +62,28 @@ public class PlayerMovement : MonoBehaviour
         _currentSpeed = isRunning ? runSpeed : walkSpeed;
         _normalHeight = _characterController.height;
     }
+
     void Update()
     {
         GravityApply();
         Move();
         CrouchSlide();
     }
+
     private Vector3 CameraForward()
     {
         Vector3 forward = playerCamera.transform.forward;
         forward.y = 0;
         return forward.normalized;
     }
+
     private Vector3 CameraRight()
     {
         Vector3 right = playerCamera.transform.right;
         right.y = 0;
         return right.normalized;
     }
+
     public bool IsGrounded()
     {
         return Physics.CheckSphere(groundCheckPivot.position, groundCheckRadius, groundLayerMask);
@@ -124,11 +128,13 @@ public class PlayerMovement : MonoBehaviour
 
         _characterController.Move(moveDirection * Time.deltaTime);
     }
+
     public void Jump()
     {
         if (IsGrounded())
             _velocity = Mathf.Sqrt(jumpHeight * -2 * gravity);
     }
+
     void CrouchSlide()
     {
         float targetCameraHeight = normalCameraHeight;
@@ -166,6 +172,7 @@ public class PlayerMovement : MonoBehaviour
 
         _characterController.height = Mathf.Lerp(_characterController.height, targetHeight, Time.deltaTime * transitionSpeed);
     }
+
     public void EnterCrouch()
     {
         if (isRunning)
@@ -181,27 +188,32 @@ public class PlayerMovement : MonoBehaviour
             isSliding = false;
         }
     }
+
     public void ExitCrouch()
     {
         _currentSpeed = isRunning ? runSpeed : walkSpeed;
         isCrouching = false; 
         isSliding = false;
     }
+
     public void EnterWalk()
     {
         isRunning = false;
         _currentSpeed = walkSpeed;
     }
+
     public void ExitWalk()
     {
         isRunning = true;
         _currentSpeed = runSpeed;
     }
+
     void GetToGround()
     {
         if (!IsGrounded() && CanGetToGround())
             _velocity = -15f;
     }
+
     private void GravityApply()
     {
         if (IsGrounded() && _velocity < 0)

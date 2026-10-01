@@ -125,6 +125,16 @@
                     "interactions": "",
                     "initialStateCheck": false,
                     "priority": 0
+                },
+                {
+                    "name": "Kick",
+                    "type": "Button",
+                    "id": "af41dd58-04c6-4e8e-8947-fa2cd8d7fd9a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 }
             ],
             "bindings": [
@@ -466,6 +476,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Weapon Slot 4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bdfdbc9a-d29b-4212-836e-e67a27672f72",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Kick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

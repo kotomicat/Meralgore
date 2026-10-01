@@ -7,11 +7,13 @@ public class PlayerInputController : MonoBehaviour
 
     private InputSystem_Actions action;
     private PlayerMovement player;
+    private Kick kick;
     private WeaponSwitcher weaponSwitcher;
 
     private void Awake()
     {
         player = GetComponent<PlayerMovement>();
+        kick = GetComponent<Kick>();
         weaponSwitcher = GetComponentInChildren<WeaponSwitcher>();
 
         action = new InputSystem_Actions();
@@ -25,6 +27,8 @@ public class PlayerInputController : MonoBehaviour
 
         action.Player.Crouch.performed += OnEnterCrouch;
         action.Player.Crouch.canceled += OnExitCrouch;
+
+        action.Player.Kick.performed += OnKick;
 
         action.Player.Attack.performed += OnStartAttack;
         action.Player.Attack.canceled += OnEndAttack;
@@ -46,6 +50,8 @@ public class PlayerInputController : MonoBehaviour
 
         action.Player.Crouch.performed -= OnEnterCrouch;
         action.Player.Crouch.canceled -= OnExitCrouch;
+        
+        action.Player.Kick.performed -= OnKick;
 
         action.Player.Attack.performed -= OnStartAttack;
         action.Player.Attack.canceled -= OnEndAttack;
@@ -67,6 +73,9 @@ public class PlayerInputController : MonoBehaviour
     // присед
     void OnEnterCrouch(InputAction.CallbackContext obj) => player.EnterCrouch();
     void OnExitCrouch(InputAction.CallbackContext obj) => player.ExitCrouch();
+
+    // пинок
+    void OnKick(InputAction.CallbackContext obj) => kick.PerformKick();
 
     // атака
     void OnStartAttack(InputAction.CallbackContext obj) => weaponSwitcher.weapon.StartAttack();
