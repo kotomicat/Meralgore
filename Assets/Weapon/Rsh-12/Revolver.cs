@@ -49,8 +49,6 @@ public class Revolver : Weapon
         lineRenderer = GetComponent<LineRenderer>();
         enemiesBuffer = new Collider[maxColliders];
 
-        currentAmmo = maxAmmo;
-
         reloadRotation = Quaternion.Euler(0, 270, reloadRotationAngle);
         shootRotation = Quaternion.Euler(0, 270, shootRotationAngle);
         shootPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -shootPositionOffset);

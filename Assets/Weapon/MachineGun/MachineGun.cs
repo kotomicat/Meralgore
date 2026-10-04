@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 public class MachineGun : Weapon
 {
@@ -6,6 +8,8 @@ public class MachineGun : Weapon
     [SerializeField] float spread;
     [SerializeField] GameObject bullet;
     [SerializeField] float shootForce;
+    Coroutine reloadCoroutine;
+    bool isReloading = false;
 
     void Start()
     {
@@ -14,7 +18,7 @@ public class MachineGun : Weapon
 
     void Update()
     {
-        if (CanAttack && attack)
+        if (CanAttack && !isReloading && attack)
         {
             Attack();
         }
@@ -43,13 +47,32 @@ public class MachineGun : Weapon
 
         // спавним пулю и присваиваем в переменную
         GameObject currentBullet = Instantiate(bullet, firePoint.position, Quaternion.identity);
-
+       
         currentBullet.transform.forward = directionWithSpread.normalized;
-
         currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
 
+        // ПЕРЕДАЧА УРОНА: Получаем скрипт пули и передаем урон
+        if (currentBullet.TryGetComponent(out Bullet bulletScript))
+        {
+            bulletScript.Init(damage); // damage — переменная урона из скрипта оружия
+        }
+
+        currentAmmo--;
+        
         ResetLastAttack();
+
+        if (currentAmmo <= 0)
+        {
+            reloadCoroutine = StartCoroutine(ReloadProcess());
+        }
     }
 
-
+    private IEnumerator ReloadProcess() // анимация перезарядки
+    {
+        isReloading = true;
+        yield return new WaitForSeconds(2f);
+        currentAmmo = maxAmmo;
+        isReloading = false;
+        yield break;
+    }
 }

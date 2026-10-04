@@ -29,6 +29,7 @@ public abstract class Weapon : MonoBehaviour
     void Awake()
     {
         mainCamera = Camera.main;
+        currentAmmo = maxAmmo;
     }
 
     public virtual void StartAttack()
