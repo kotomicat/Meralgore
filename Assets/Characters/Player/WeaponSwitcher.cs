@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class WeaponSwitcher : MonoBehaviour
 {
-    private Animator anim; 
-    private int changeHash;
-
     public GameObject currentWeapon;
     public Weapon weapon;
     
@@ -13,9 +10,7 @@ public class WeaponSwitcher : MonoBehaviour
 
     void Start()
     {
-
-        anim = GetComponent<Animator>();
-        changeHash = Animator.StringToHash("Change");
+//активация первого оружия по индексу
         ChangeWeapon(0);
     }
 
@@ -23,7 +18,6 @@ public class WeaponSwitcher : MonoBehaviour
     {
         if (weaponNum < transform.childCount)
         {
-            anim.SetTrigger(changeHash);
             int i = 0;
             foreach (Transform weapon in transform)
             {
