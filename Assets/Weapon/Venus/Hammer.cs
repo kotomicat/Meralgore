@@ -14,137 +14,120 @@ public class Hammer : Weapon
     [SerializeField] float scaleSpeed = 2;
     [SerializeField] float minDamage = 1f;
     public float targetDamage = 0.1f;
-    
-    [Header("Animation")]
-    [SerializeField] private float backRotationAngle = 15f;
-    [SerializeField] private float forwardRotationAngle = 15f;
-    [HideInInspector] public Quaternion startRotation;
-    public float angleStep; // ИСПОЛЬЗУЕТСЯ В ТЕХ МЕСТАХ АНИМАЦИИ ГДЕ ROTATETOWARDS
-    public float step; // ИСПОЛЬЗУЕТСЯ В ТЕХ МЕСТАХ АНИМАЦИИ ГДЕ LERP
-    private Quaternion backRotationDelta;
-    private Quaternion forwardRotationDelta;
 
     [Header("Other")]
-    public bool lockAttack;
-    private Coroutine beatCoroutine; 
-    private Coroutine cancelledBeatCoroutine;
+    private bool charging = false;
+    private Coroutine attackProcessCoroutine;
 
     void Start()
-    {   
-        lockAttack = false;
+    {
+        attack = false;
         rBarImage = rangeBar.GetComponent<Image>();
-        
-        backRotationDelta = Quaternion.Euler(0, 0, -backRotationAngle);
-        forwardRotationDelta = Quaternion.Euler(0, 0, forwardRotationAngle);
-        
-        startRotation = transform.localRotation;
+        targetDamage = minDamage;
+    }
+
+    private void OnEnable()
+    {
+        attack = false;
+        // защита от ошибки в случае неициалированного Animator
+        if (animator != null)
+        {
+            // сброс старых триггеров
+            animator.ResetTrigger("Attack");
+            animator.ResetTrigger("Charging");
+
+            // анимация экипировки оружия
+            animator.SetTrigger("Equip");
+        }
     }
 
     void Update()
     {
-        Attack();
+        if (!attack && charging)
+        {
+            ChargeUpdate();
+        }
     }
 
-    public override void Attack() // здесь происходят все действия, когда зажата кнопка
-    // в данном случае - небольшой замах назад, определение мощности удара
+    private void ChargeUpdate()
     {
-        if (lockAttack) return; 
-        if  (Mathf.Abs(targetDamage - damage) > 0.001f && attack) // пока урон не достиг максимума, либо пока зажата лкм
+        if (Mathf.Abs(targetDamage - damage) > 0.001f)
         {
-            targetDamage = Mathf.MoveTowards(targetDamage, damage, Time.deltaTime * scaleSpeed); // набирается урон
-            rBarImage.fillAmount = targetDamage / damage; // заполняется колесико
-
-            transform.localRotation = Quaternion.RotateTowards(transform.localRotation, startRotation * backRotationDelta, Time.deltaTime * 5f); 
+            targetDamage = Mathf.MoveTowards(targetDamage, damage, Time.deltaTime * scaleSpeed);
+            rBarImage.fillAmount = targetDamage / damage;
         }
     }
 
     public override void StartAttack()
     {
-        if (lockAttack) // в случае, если сейчас происходит атака
-        {
-            if (beatCoroutine != null)
-            {
-                StopCoroutine(beatCoroutine); // жестко останавливаем процесс удара
-
-                // сбрасываем rangebar и текущий урон 
-                rBarImage.fillAmount = 0;
-                targetDamage = minDamage;
-                rangeBar.SetActive(false);
-
-                cancelledBeatCoroutine = StartCoroutine(CancelledBeat()); // запускам процесс отмены удара
-                return; // не даем этой функции доработать, так как все последующие в ней события уже лежат на корутине отмены
-            }
-
-            transform.localRotation = startRotation;
-            lockAttack = false;
-        }
-
-        attack = true;
-        rangeBar.SetActive(true);
+        charging = true;
+        if (attack) return;
+        
+        StartCharging();
     }
 
     public override void EndAttack()
-    {   
-        lockAttack = true;
-        attack = false;
+    {
+        charging = false;
+        StopCharging();
+
+        // если в текущий момент мы не атакуем, то запускаем процесс атаки
+        if (!attack)
+        {
+            attack = true; // сразу блокируем возможность повторной атаки во избежание наложения анимаций
+
+            if (attackProcessCoroutine != null) StopCoroutine(attackProcessCoroutine);
+            attackProcessCoroutine = StartCoroutine(AttackProcess());
+        }
+    }
+
+    private void StartCharging() // запуск всех процессов для начала замаха (!!использовать с связке с извменением charging на true!!)
+    {
+        animator.ResetTrigger("Attack"); // сбрасываем триггер удара на всякий случай
         
+        targetDamage = minDamage; // сброс потенциального урона при начале нового замаха
+
+        animator.SetTrigger("Charging"); // триггер для анимации замаха
+        rangeBar.SetActive(true);  // включаем шкалу заряда
+    }
+    private void StopCharging()
+    {
         rBarImage.fillAmount = 0;
         rangeBar.SetActive(false);
-
-        beatCoroutine = StartCoroutine(Beat()); // на отжатие лкм запускается корутина удара
     }
-    
-    private IEnumerator Beat() // ПРОЦЕСС УДАРА
+
+    private IEnumerator AttackProcess()
     {
-        Quaternion _strikeRotation = startRotation * forwardRotationDelta; // точка, до которой происходит замах
+        animator.SetTrigger("Attack");
 
-        // 1. первоначальный взмах - от текущей позиции до положения удара
-        while (Quaternion.Angle(transform.localRotation, _strikeRotation) > 0.1f) // пока истинный поворот не приблизился к конечной точке
-        {
-            transform.localRotation = Quaternion.Lerp(transform.localRotation, startRotation * forwardRotationDelta, Time.deltaTime * step);
-            yield return null;
-        }
-        
-        // доводка поворота до нужной точки
-        transform.localRotation = _strikeRotation;
-        yield return new WaitForSeconds(0.05f);
-        // 2. возвращение обратно
+        yield return null;
 
-        while (Quaternion.Angle(transform.localRotation, startRotation) > 0.1f) // пока истинный поворот не приблизился к конечной точке
+        // счетчик превышения времени ожидания анимации
+        float timeout = 0f;
+
+        // данный цикл работает пока не включится анимация, и для защиты от вечного зависания накручивает timeout
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && timeout < 1.0f) 
         {
-            transform.localRotation = Quaternion.RotateTowards(transform.localRotation, startRotation, Time.deltaTime * angleStep);
+            timeout += Time.deltaTime;
             yield return null;
         }
 
-        targetDamage = minDamage;
-        lockAttack = false;    
-        
-        yield break;
-    }
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0); //берем информацию о текущем состоянии на слое 0
+        float animationLength = stateInfo.length; // берем длину анимации в секундах
+        yield return new WaitForSeconds(animationLength - 0.001f); // делаем паузу на время анимации, чтобы дать ей завершиться
 
-    private IEnumerator CancelledBeat() // ПЛАВНО ВОЗВРАЩАЕТ МОЛОТ В ИСХОДНОЕ ПОЛОЖЕНИЕ ПОСЛЕ ОТМЕНЫ АТАКИ
-    {
-        lockAttack = true; // в момент возвраащения нельзя атаковать, лочим
+        // после завершения анимации сбрасываем флаг действующей атаки
+        attack = false;
 
-        while (Quaternion.Angle(transform.localRotation, startRotation) > 0.1f) // пока истинный поворот не приблизился к конечной точке
+        if (charging) // если во время атаки игрок продолжает удерживать кнопку атаки, то сразу запускаем процесс заряда для следующей атаки
         {
-            transform.localRotation = Quaternion.RotateTowards(transform.localRotation, startRotation, Time.deltaTime *  angleStep * 4);
-            yield return null;
+            StartCharging();
         }
-        
-        transform.localRotation = startRotation; // доводка положения
-
-        // стандартные процедуры для начала новой атаки после доводки
-        attack = true;
-        rangeBar.SetActive(true); 
-
-        targetDamage = minDamage; // сборс урона
-        lockAttack = false;
     }
-    
-    public void Hit(Collider other) // эту функцию активирует кончик молота при его соприкоснновении с объектами
+
+    public void Hit(Collider other) // эта функция активирует кончик молота при его соприкоснновении с объектами
     {
-        if (lockAttack)
+        if (attack)
         {
             Health _enemyHealth = other.gameObject.GetComponent<Health>();
             Debug.Log(_enemyHealth);

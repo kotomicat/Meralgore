@@ -2,8 +2,10 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    [SerializeField] public LayerMask enemyLayer;
-    [Header("Weapon Settings")]
+    protected Animator animator;
+    public Camera mainCamera;
+    
+    [Header("Settings")]
     public float range = 10f;
     public float damage = 15f;
     public float cooldown = 0.5f;
@@ -15,19 +17,18 @@ public abstract class Weapon : MonoBehaviour
 
     [Header("References")]
     [SerializeField] protected Transform firePoint;
+    [SerializeField] public LayerMask enemyLayer;
 
     [Header("Visual")]
     [SerializeField] private GameObject bulletHoleDecalPrefab;
 
-    public Camera mainCamera;
-
     protected float nextAttackTime;
     public bool attack;
-
     public virtual bool CanAttack => Time.time >= nextAttackTime;
 
     void Awake()
     {
+        animator = GetComponent<Animator>();
         mainCamera = Camera.main;
         currentAmmo = maxAmmo;
     }
@@ -45,10 +46,7 @@ public abstract class Weapon : MonoBehaviour
         attack = false;
     }
 
-    public virtual void StartAltAttack()
-    {
-        
-    }
+    public virtual void StartAltAttack() { }
 
     public void SpawnBulletHole(Vector3 normal, Vector3 point, Transform parent)
     {

@@ -328,9 +328,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 198868928}
-  - {fileID: 2010836955}
   - {fileID: 1158091403}
   - {fileID: 1267926869}
+  - {fileID: 2010836955}
   m_Father: {fileID: 1041073616}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &46004695
@@ -369,9 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fab60588a4b8c4849bf0feb1bf55dc11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hammer
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  mainCamera: {fileID: 0}
   range: 10
   damage: 15
   cooldown: 0.5
@@ -379,19 +377,15 @@ MonoBehaviour:
   currentAmmo: 0
   reload: 0
   firePoint: {fileID: 511432611}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
   bulletHoleDecalPrefab: {fileID: 0}
-  mainCamera: {fileID: 0}
   attack: 0
   rangeBar: {fileID: 1184019448}
   scaleSpeed: 5
   minDamage: 1
   targetDamage: 0.1
-  backRotationAngle: 60
-  forwardRotationAngle: 80
-  startRotation: {x: 0, y: 0, z: 0, w: 0}
-  angleStep: 200
-  step: 20
-  lockAttack: 0
 --- !u!95 &198868930
 Animator:
   serializedVersion: 7
@@ -4021,18 +4015,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5178f0f756a5c2e4886dfd7dea9c3772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MachineGun
+  mainCamera: {fileID: 330585545}
+  range: 10
+  damage: 15
+  cooldown: 0.09
+  maxAmmo: 40
+  currentAmmo: 40
+  reload: 0
+  firePoint: {fileID: 1094287334}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
-  range: 10
-  damage: 15
-  cooldown: 0.5
-  maxAmmo: 25
-  currentAmmo: 0
-  reload: 0
-  firePoint: {fileID: 1094287334}
   bulletHoleDecalPrefab: {fileID: 1400411723308633212, guid: 6b52ee5d9136e724590f7ded4686ae65, type: 3}
-  mainCamera: {fileID: 330585545}
   attack: 0
   spread: 0.04
   bullet: {fileID: 5083308607018066738, guid: d9b4a8eb526b2cd43b7e3579a691a33f, type: 3}
@@ -4129,7 +4123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 546b46176a06eef43a8513fb208446b8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4702,7 +4696,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7469559195048873796, guid: 5e359bdbfae0eb14886327154de6d19c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -4744,9 +4738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15f49347e099ecc46b0be51023f8f1b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shotgun
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  mainCamera: {fileID: 0}
   range: 20
   damage: 18
   cooldown: 0.5
@@ -4754,8 +4746,10 @@ MonoBehaviour:
   currentAmmo: 0
   reload: 0
   firePoint: {fileID: 586244068}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
   bulletHoleDecalPrefab: {fileID: 1400411723308633212, guid: 6b52ee5d9136e724590f7ded4686ae65, type: 3}
-  mainCamera: {fileID: 0}
   attack: 0
   minSpreadRotation: -6
   maxSpreadRotation: 6
