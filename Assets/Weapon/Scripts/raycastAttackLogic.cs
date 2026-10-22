@@ -3,42 +3,49 @@ using System.Collections.Specialized;
 using System.Net;
 using UnityEngine;
 
-public class raycastAttackLogic : MonoBehaviour
+public class RaycastAttackLogic : WeaponAttackLogic
 {
-    [SerializeField] private Weapon weapon;
-    [SerializeField] private WeaponConfig config;
+    [SerializeField] private LayerMask hitLayer;
     [SerializeField] private BulletTrace tracePrefab;
 
-    private void Awake()
+
+    public override void ExecuteAttack(BaseWeapon weapon)
     {
-        weapon = GetComponent<Weapon>();
-    }
-    void TryHit(Vector3 originPosition, Vector3 direction,float range)
-    {
-        if (weapon.reload)
+        Camera cam = weapon.MainCamera;
+
+        if (cam == null)
         {
             return;
         }
 
-        if (Physics.Raycast(originPosition, direction, out RaycastHit hit, range))
+        Ray aimRay = cam.ViewportPointToRay(
+            new Vector3(0.5f, 0.5f, 0));
+
+        Vector3 targetPoint = aimRay.origin + aimRay.direction * weapon.Range;
+        Vector3 hitPoint = targetPoint;
+
+        if (Physics.Raycast(aimRay,out RaycastHit aimHit, weapon.Range, hitLayer))
         {
-            Vector3 endPoint = hit.point;
-            Transform hitTransform = hit.collider.transform;
-            if (hitTransform.TryGetComponent(out Health health) || 
-                (hitTransform.parent && hitTransform.parent.TryGetComponent(out health))
-                )
-            {
-                health.Damage(weapon.damage);
-            }
-            weapon.SpawnBulletHole(hit.normal, endPoint, hitTransform); 
+            targetPoint = aimHit.point;
         }
-        // Тут с монетками надо подумать, так что пока не доделываю
-        //else if (Physics.SphereCast(originPosition, config.CoinHitRadius, direction, out RaycastHit sphereHit, config.CoinCastRange))
-        //{
-        //    Transform target = (Near)
-        //}
-        SpawnTrace(originPosition, direction);
-    }
+
+        Vector3 origin = weapon.FirePoint != null ? weapon.FirePoint.position : aimRay.origin;
+
+        Vector3 direction = (targetPoint - origin).normalized;
+
+        if (Physics.Raycast(origin,direction,out RaycastHit hit, weapon.Range, hitLayer))
+        {
+            Health health = hit.collider.GetComponentInParent<Health>();
+            hitPoint = hit.point;
+            if ( health != null)
+            {
+                health.Damage(weapon.Damage);
+            }
+        }
+
+        SpawnTrace(origin, hitPoint);
+    }   
+   
     private void SpawnTrace(params Vector3[] points)
     {
         BulletTrace trace = Instantiate(tracePrefab);

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e9a0bd6d9890e48bf5f5ec5aba6156, type: 3}
+  m_Name: Rsh-12Config
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponConfig
+  damage: 2
+  range: 20
+  cooldown: 0.1
+  maxAmmo: 12
+  reloadDuration: 2
+  coinHitRadius: 0.5
+  coinCastRange: 30
+  shootTraceWidth: 0.1
+  shootTraceThinningStep: 0.00001

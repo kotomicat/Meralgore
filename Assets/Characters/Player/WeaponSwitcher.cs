@@ -7,7 +7,7 @@ public class WeaponSwitcher : MonoBehaviour
     private int changeHash;
 
     public GameObject currentWeapon;
-    public Weapon weapon;
+    public BaseWeapon weapon;
     
 
 
@@ -34,7 +34,7 @@ public class WeaponSwitcher : MonoBehaviour
 
             
             currentWeapon = transform.GetChild(weaponNum).gameObject;
-            weapon = currentWeapon.GetComponent<Weapon>();
+            weapon = currentWeapon.GetComponent<BaseWeapon>();
         }
     }
 

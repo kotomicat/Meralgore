@@ -1,76 +1,167 @@
+
+using System.Collections;
 using UnityEngine;
+
+public enum WeaponFireMode
+{
+    SemiAutomatic,
+    Automatic
+}
 
 public abstract class BaseWeapon : MonoBehaviour
 {
-    [SerializeField] public LayerMask enemyLayer;
-    [Header("Weapon Settings")]
-    public float range = 10f;
-    public float damage = 15f;
-    public float cooldown = 0.5f;
-
-    [Header("Ammo")]
-    public int maxAmmo;
-    public int currentAmmo;
-    public bool isReloading = false;
+    [Header("Configuration")]
+    [SerializeField] private WeaponConfig config;
+    [SerializeField] private WeaponFireMode fireMode;
 
     [Header("References")]
-    [SerializeField] protected Transform firePoint;
+    [SerializeField] private WeaponAttackLogic attackLogic;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private Camera mainCamera;
 
-    [Header("Visual")]
-    [SerializeField] private GameObject bulletHoleDecalPrefab;
+    public float Damage => config != null ? config.Damage : 0f;
+    public float Range => config != null ? config.Range : 0f;
+    public float Cooldown => config != null ? config.Cooldown : 0f;
 
-    public Camera mainCamera;
+    public int CurrentAmmo { get; private set; }
+    public int MaxAmmo => config != null ? config.MaxAmmo : 0;
 
-    protected float nextAttackTime;
-    public bool isAttacking;
+    public bool IsAttacking { get; private set; }
+    public bool IsReloading { get; private set; }
 
-    public virtual bool CanAttack => Time.time >= nextAttackTime;
+    public Transform FirePoint => firePoint;
+    public Camera MainCamera => mainCamera;
 
-    void Awake()
+    private float nextAttackTime;
+    private Coroutine reloadCoroutine;
+
+    public bool CanAttack =>
+        config != null &&
+        attackLogic != null &&
+        !IsReloading &&
+        CurrentAmmo > 0 &&
+        Time.time >= nextAttackTime;
+
+    protected virtual void Awake()
     {
-        mainCamera = Camera.main;
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+
+        if (attackLogic == null)
+            attackLogic = GetComponent<WeaponAttackLogic>();
+
+        if (config == null)
+        {
+            Debug.LogError(
+                $"{name}: WeaponConfig is not assigned.", this);
+            enabled = false;
+            return;
+        }
+
+        if (attackLogic == null)
+        {
+            Debug.LogError(
+                $"{name}: WeaponAttackLogic is missing.", this);
+            enabled = false;
+            return;
+        }
+
+        CurrentAmmo = config.MaxAmmo;
+    }
+
+    private void Update()
+    {
+        if (IsAttacking &&
+            fireMode == WeaponFireMode.Automatic)
+        {
+            TryAttack();
+        }
     }
 
     public virtual void StartAttack()
     {
+        if (IsReloading)
+            return;
 
-        Debug.Log("StartAttack");
-        isAttacking = true;
+        IsAttacking = true;
+
+        OnAttackStarted();
+
+        // ѕервый выстрел происходит сразу при нажатии.
+        TryAttack();
     }
 
     public virtual void EndAttack()
     {
-        Debug.Log("EndAttack");
-        isAttacking = false;
+        if (!IsAttacking)
+            return;
+
+        IsAttacking = false;
+
+        OnAttackEnded();
     }
 
     public virtual void StartAltAttack()
     {
-
+        // –еализуетс€ конкретным оружием при необходимости.
     }
 
-    public void SpawnBulletHole(Vector3 normal, Vector3 point, Transform parent)
+    private void TryAttack()
     {
-        Vector3 decalUp = Mathf.Abs(normal.y) > 0.9f ? Vector3.forward : Vector3.up;
+        if (!CanAttack)
+        {
+            if (CurrentAmmo <= 0 && !IsReloading)
+                OnAmmoEmpty();
 
-        // hit.normal отрицателен чтобы проектор декалей смотрел внутрь поверхности
-        Quaternion decalRotation = Quaternion.LookRotation(-normal, decalUp);
+            return;
+        }
 
-        GameObject decal = Instantiate(bulletHoleDecalPrefab, point, decalRotation);
+        // ‘иксируем выстрел до выполнени€ логики атаки.
+        CurrentAmmo--;
+        nextAttackTime = Time.time + config.Cooldown;
 
-        // чтобы дырки двигались с перемещающимс€ объектом, делаем их дочерними
-        // true вторым аргументом значит что мировые координаты не мен€ютс€
-        decal.transform.SetParent(parent, true);
+        attackLogic.ExecuteAttack(this);
 
-        Destroy(decal, 10f); //самоуничтожение
+        OnAttackExecuted();
     }
 
-    public virtual void Attack() { }
-    public virtual void Reload() { }
-
-    protected void ResetLastAttack()
+    public virtual void Reload()
     {
-        nextAttackTime = Time.time + cooldown;
+        if (config == null ||
+            IsReloading ||
+            CurrentAmmo >= config.MaxAmmo)
+        {
+            return;
+        }
+
+        IsAttacking = false;
+        IsReloading = true;
+
+        OnReloadStarted();
+
+        reloadCoroutine = StartCoroutine(ReloadRoutine());
     }
 
+    private IEnumerator ReloadRoutine()
+    {
+        yield return new WaitForSeconds(config.ReloadDuration);
+
+        CurrentAmmo = config.MaxAmmo;
+        IsReloading = false;
+        reloadCoroutine = null;
+
+        OnReloadFinished();
+    }
+
+    protected virtual void OnAttackStarted() { }
+
+    protected virtual void OnAttackEnded() { }
+
+    protected virtual void OnAttackExecuted() { }
+
+    protected virtual void OnAmmoEmpty() { }
+
+    protected virtual void OnReloadStarted() { }
+
+    protected virtual void OnReloadFinished() { }
 }

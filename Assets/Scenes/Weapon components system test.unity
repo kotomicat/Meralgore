@@ -394,9 +394,15 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
+  range: 10
   damage: 15
   cooldown: 0.5
+  maxAmmo: 0
+  currentAmmo: 0
+  reload: 0
   firePoint: {fileID: 511432611}
+  bulletHoleDecalPrefab: {fileID: 0}
+  mainCamera: {fileID: 0}
   attack: 0
   rangeBar: {fileID: 1184019448}
   scaleSpeed: 5
@@ -2132,6 +2138,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MG_rsh-12
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bb8fd7537de6ab64082412e398b64494, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2311,6 +2321,11 @@ MonoBehaviour:
   offsetFOV: 10
   animAwayDuration: 0.06
   animBackDuration: 0.5
+--- !u!4 &1087644601 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7553099145421760999, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
+  m_PrefabInstance: {fileID: 1949902896}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1140426848
 GameObject:
   m_ObjectHideFlags: 0
@@ -2342,6 +2357,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 351115410}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1164679425 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6770805037535022017, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
+  m_PrefabInstance: {fileID: 1949902896}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1172743706
 Mesh:
   m_ObjectHideFlags: 0
@@ -2956,6 +2976,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6907763414153454703, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
   m_PrefabInstance: {fileID: 1949902896}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1267926870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164679425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1785dacc74807484a9d116c4cf4795e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RaycastAttackLogic
+  hitLayer:
+    serializedVersion: 2
+    m_Bits: 72
+  tracePrefab: {fileID: 1267926873}
+--- !u!114 &1267926871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164679425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85352ab366292704787a0e6ef81b3970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RevolverLogic
+  config: {fileID: 11400000, guid: 5040564fb8bb19444b014face8d03422, type: 2}
+  fireMode: 0
+  attackLogic: {fileID: 1267926870}
+  firePoint: {fileID: 1087644601}
+  mainCamera: {fileID: 330585545}
+  animator: {fileID: 0}
+  fireTrigger: Fire
+  reloadTrigger: Reload
+--- !u!120 &1267926872 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 6617220545339862287, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
+  m_PrefabInstance: {fileID: 1949902896}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1267926873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164679425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf4660acc84cce4caf2af4b8290e724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BulletTrace
+  lineRenderer: {fileID: 1267926872}
+  initialWidth: 0.2
+  visibleDuration: 0.2
+  fadeDuration: 0.25
 --- !u!43 &1312942972
 Mesh:
   m_ObjectHideFlags: 0
@@ -4114,6 +4191,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 381291167432319072, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 381291167432319072, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
       propertyPath: cameraController
       value: 
       objectReference: {fileID: 1041073620}
@@ -4121,6 +4202,10 @@ PrefabInstance:
       propertyPath: plCharacterController
       value: 
       objectReference: {fileID: 351115415}
+    - target: {fileID: 6617220545339862287, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6770805037535022017, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
       propertyPath: m_Name
       value: MG_rsh-12
@@ -4157,13 +4242,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8220150651327180548, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 381291167432319072, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6907763414153454703, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 884347957}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6770805037535022017, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1267926871}
+    - targetCorrespondingSourceObject: {fileID: 6770805037535022017, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1267926870}
+    - targetCorrespondingSourceObject: {fileID: 6770805037535022017, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1267926873}
   m_SourcePrefab: {fileID: 100100000, guid: 43aa92787ea11114489700cc803f76d5, type: 3}
 --- !u!1001 &2010836954
 PrefabInstance:
@@ -4281,6 +4380,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shotgun
       objectReference: {fileID: 0}
+    - target: {fileID: 7469559195048873796, guid: 5e359bdbfae0eb14886327154de6d19c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -4317,13 +4420,18 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  range: 20
   damage: 18
   cooldown: 0.5
+  maxAmmo: 0
+  currentAmmo: 0
+  reload: 0
   firePoint: {fileID: 586244068}
+  bulletHoleDecalPrefab: {fileID: 0}
+  mainCamera: {fileID: 0}
   attack: 0
   minSpreadRotation: 1
   maxSpreadRotation: 6
-  range: 20
 --- !u!43 &2104416326
 Mesh:
   m_ObjectHideFlags: 0
