@@ -1,10 +1,12 @@
 using UnityEngine;
+using System.Collections;
 
 public class Shotgun : Weapon
 {
     Transform firePointStarPos;
     [SerializeField] float minSpreadRotation;
     [SerializeField] float maxSpreadRotation;
+    Coroutine reloadCoroutine;
 
     void Start()
     {
@@ -24,6 +26,9 @@ public class Shotgun : Weapon
 
     public override void Attack() 
     {
+        animator.ResetTrigger("Shoot");
+        animator.SetTrigger("Shoot");
+
         float mobDistance;
         
         // 1. ПОИСК ТОЧКИ ПРИЦЕЛА
@@ -72,4 +77,35 @@ public class Shotgun : Weapon
         }
     }
 
+    public override void Reload()
+    {
+        if (!reload)
+            reloadCoroutine = StartCoroutine(ReloadProcess());
+    }
+
+    private IEnumerator ReloadProcess() // анимация перезарядки
+    {
+        reload = true;
+        animator.SetTrigger("Reload");
+
+        // ждем окончания текущего кадра, чтобы Animator переключился на состояние перезарядки
+        yield return null;
+
+        // счетчик превышения времени ожидания анимации
+        float timeout = 0f;
+
+        // данный цикл работает пока не включится анимация, и для защиты от вечного зависания накручивает timeout
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && timeout < 1.0f)
+        {
+            timeout += Time.deltaTime;
+            yield return null;
+        }
+
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0); //берем информацию о текущем состоянии на слое 0
+        float animationLength = stateInfo.length; // берем длину анимации в секундах
+        yield return new WaitForSeconds(animationLength - 0.001f); // делаем паузу на время анимации, чтобы дать ей завершиться
+
+        currentAmmo = maxAmmo;
+        reload = false;
+    }
 }

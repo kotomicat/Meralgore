@@ -33,6 +33,21 @@ public abstract class Weapon : MonoBehaviour
         currentAmmo = maxAmmo;
     }
 
+    private void OnEnable() //всегда при активации оружия, сбрасываем старые триггеры и запускаем анимацию экипировки
+    {
+        ResetAllTriggers();
+        animator.SetTrigger("Equip");
+    }
+
+    public void ResetAllTriggers() //сбрасывает любые триггеры в Animator
+    {
+        foreach (AnimatorControllerParameter parameter in animator.parameters)
+        {
+            if (parameter.type == AnimatorControllerParameterType.Trigger)
+                animator.ResetTrigger(parameter.name);
+        }
+    }
+
     public virtual void StartAttack()
     {
         

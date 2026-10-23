@@ -9,7 +9,6 @@ public class MachineGun : Weapon
     [SerializeField] GameObject bullet;
     [SerializeField] float shootForce;
     Coroutine reloadCoroutine;
-    bool isReloading = false;
 
     private void OnEnable()
     {
@@ -32,7 +31,7 @@ public class MachineGun : Weapon
 
     void Update()
     {
-        if (CanAttack && !isReloading && attack)
+        if (CanAttack && !reload && attack)
         {
             Attack();
         }
@@ -85,12 +84,13 @@ public class MachineGun : Weapon
     }
     public override void Reload() 
     {
-        reloadCoroutine = StartCoroutine(ReloadProcess());
+        if (!reload)
+            reloadCoroutine = StartCoroutine(ReloadProcess());
     }
 
     private IEnumerator ReloadProcess() // анимация перезарядки
     {
-        isReloading = true;
+        reload = true;
         animator.SetTrigger("Reload");
 
         // ждем окончания текущего кадра, чтобы Animator переключился на состояние перезарядки
@@ -111,6 +111,6 @@ public class MachineGun : Weapon
         yield return new WaitForSeconds(animationLength - 0.001f); // делаем паузу на время анимации, чтобы дать ей завершиться
 
         currentAmmo = maxAmmo;
-        isReloading = false;
+        reload = false;
     }
 }
