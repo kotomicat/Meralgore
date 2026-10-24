@@ -74,7 +74,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: 
+    path: MG_machinegun
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -126,7 +126,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: "\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+    path: "MG_machinegun/\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
   m_PositionCurves:
   - curve:
       serializedVersion: 2
@@ -188,7 +188,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: 
+    path: MG_machinegun
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -240,7 +240,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: "\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+    path: "MG_machinegun/\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
@@ -375,7 +375,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: 
+    path: MG_machinegun
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -441,7 +441,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: 
+    path: MG_machinegun
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -507,7 +507,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: 
+    path: MG_machinegun
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -573,7 +573,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: 
+    path: MG_machinegun
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -639,7 +639,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: 
+    path: MG_machinegun
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -705,7 +705,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: 
+    path: MG_machinegun
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -762,7 +762,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: "\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+    path: "MG_machinegun/\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -819,7 +819,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: "\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+    path: "MG_machinegun/\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -876,7 +876,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: "\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+    path: "MG_machinegun/\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -933,7 +933,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: "\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+    path: "MG_machinegun/\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -990,7 +990,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: "\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+    path: "MG_machinegun/\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1047,7 +1047,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: "\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+    path: "MG_machinegun/\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1060,7 +1060,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: "\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+    path: "MG_machinegun/\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1072,7 +1072,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: "\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+    path: "MG_machinegun/\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1084,7 +1084,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: "\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+    path: "MG_machinegun/\u043C\u0430\u0433\u0430\u0437\u0438\u043D"
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1096,7 +1096,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: 
+    path: MG_machinegun
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1108,7 +1108,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: 
+    path: MG_machinegun
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1120,7 +1120,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: 
+    path: MG_machinegun
     classID: 4
     script: {fileID: 0}
     flags: 0
