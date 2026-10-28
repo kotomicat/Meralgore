@@ -22,6 +22,7 @@ public abstract class Weapon : MonoBehaviour
     [Header("Visual")]
     [SerializeField] private GameObject bulletHoleDecalPrefab;
 
+    protected Coroutine reloadCoroutine;
     protected float nextAttackTime;
     public bool attack;
     public virtual bool CanAttack => Time.time >= nextAttackTime;

@@ -8,21 +8,6 @@ public class MachineGun : Weapon
     [SerializeField] float spread;
     [SerializeField] GameObject bullet;
     [SerializeField] float shootForce;
-    Coroutine reloadCoroutine;
-
-    private void OnEnable()
-    {
-        // защита от ошибки в случае неициалированного Animator
-        if (animator != null)
-        {
-            // сброс старых триггеров
-            animator.ResetTrigger("Shoot");
-            animator.ResetTrigger("Reload");
-
-            // анимация экипировки оружия
-            animator.SetTrigger("Equip");
-        }
-    }
 
     private void Start()
     {
@@ -39,6 +24,12 @@ public class MachineGun : Weapon
 
     public override void Attack()
     {
+        if (currentAmmo <= 0)
+        {
+            reloadCoroutine = StartCoroutine(ReloadProcess());
+            return;
+        }
+
         animator.ResetTrigger("Shoot");
         animator.SetTrigger("Shoot");
 
@@ -76,11 +67,6 @@ public class MachineGun : Weapon
         currentAmmo--;
         
         ResetLastAttack();
-
-        if (currentAmmo <= 0)
-        {
-            reloadCoroutine = StartCoroutine(ReloadProcess());
-        }
     }
     public override void Reload() 
     {

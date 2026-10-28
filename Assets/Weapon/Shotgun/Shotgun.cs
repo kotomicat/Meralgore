@@ -6,7 +6,6 @@ public class Shotgun : Weapon
     Transform firePointStarPos;
     [SerializeField] float minSpreadRotation;
     [SerializeField] float maxSpreadRotation;
-    Coroutine reloadCoroutine;
 
     void Start()
     {
@@ -26,6 +25,12 @@ public class Shotgun : Weapon
 
     public override void Attack() 
     {
+        if (currentAmmo <= 0)
+        {
+            reloadCoroutine = StartCoroutine(ReloadProcess());
+            return;
+        }
+
         animator.ResetTrigger("Shoot");
         animator.SetTrigger("Shoot");
 

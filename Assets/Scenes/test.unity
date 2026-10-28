@@ -328,9 +328,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6907763412746849375}
+  - {fileID: 976910977}
   - {fileID: 85853311}
   - {fileID: 2010836955}
-  - {fileID: 976910977}
   m_Father: {fileID: 1041073616}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &46004695
@@ -4636,7 +4636,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2010836957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6569,9 +6569,6 @@ MonoBehaviour:
   reloadStep: 10
   shootStep: 25.1
   traceThinningStep: 0.006
-  reloadRotationAngle: 15
-  shootRotationAngle: 20
-  shootPositionOffset: 0.15
   cameraController: {fileID: 1041073620}
   coin: {fileID: 1515063615090740155, guid: e5dc432b48ec36f4086f763eb772eeb1, type: 3}
   coinLayer:
@@ -12225,7 +12222,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &6842068601572904216
 GameObject:
   m_ObjectHideFlags: 0
