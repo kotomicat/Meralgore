@@ -416,10 +416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hammer
   mainCamera: {fileID: 0}
-  range: 10
-  damage: 15
-  cooldown: 0.5
-  maxAmmo: 0
+  baseStatsAsset: {fileID: 0}
   currentAmmo: 0
   reload: 0
   firePoint: {fileID: 511432611}
@@ -429,7 +426,6 @@ MonoBehaviour:
   bulletHoleDecalPrefab: {fileID: 0}
   attack: 0
   rangeBar: {fileID: 1184019448}
-  scaleSpeed: 5
   minDamage: 1
   targetDamage: 0.1
 --- !u!4 &198868928 stripped
@@ -2331,7 +2327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &976910977
 Transform:
   m_ObjectHideFlags: 0
@@ -2383,10 +2379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MachineGun
   mainCamera: {fileID: 330585545}
-  range: 10
-  damage: 15
-  cooldown: 0.09
-  maxAmmo: 40
+  baseStatsAsset: {fileID: 11400000, guid: d28988d425b47b24f9779ce90c665b41, type: 2}
   currentAmmo: 40
   reload: 0
   firePoint: {fileID: 1094287334}
@@ -4650,10 +4643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shotgun
   mainCamera: {fileID: 0}
-  range: 20
-  damage: 18
-  cooldown: 0.5
-  maxAmmo: 0
+  baseStatsAsset: {fileID: 11400000, guid: a93ff58aae414e84aaa947af1c852a7e, type: 2}
   currentAmmo: 0
   reload: 0
   firePoint: {fileID: 586244068}
@@ -4662,6 +4652,7 @@ MonoBehaviour:
     m_Bits: 64
   bulletHoleDecalPrefab: {fileID: 1400411723308633212, guid: 6b52ee5d9136e724590f7ded4686ae65, type: 3}
   attack: 0
+  pelletsCount: 0
   minSpreadRotation: -6
   maxSpreadRotation: 6
 --- !u!95 &2010836958
@@ -6554,10 +6545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Revolver
   mainCamera: {fileID: 0}
-  range: 10
-  damage: 2
-  cooldown: 0.5
-  maxAmmo: 5
+  baseStatsAsset: {fileID: 11400000, guid: 98ab853bf9a294e469a2f354d2b4b658, type: 2}
   currentAmmo: 0
   reload: 0
   firePoint: {fileID: 7553099146695180759}
@@ -6566,8 +6554,6 @@ MonoBehaviour:
     m_Bits: 64
   bulletHoleDecalPrefab: {fileID: 1400411723308633212, guid: 6b52ee5d9136e724590f7ded4686ae65, type: 3}
   attack: 0
-  reloadStep: 10
-  shootStep: 25.1
   traceThinningStep: 0.006
   cameraController: {fileID: 1041073620}
   coin: {fileID: 1515063615090740155, guid: e5dc432b48ec36f4086f763eb772eeb1, type: 3}
@@ -12222,7 +12208,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &6842068601572904216
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,12 +6,9 @@ public class WeaponSwitcher : MonoBehaviour
     public GameObject currentWeapon;
     public Weapon weapon;
     
-
-
     void Start()
     {
-//активация первого оружия по индексу
-        ChangeWeapon(0);
+        ChangeWeapon(0); //активация первого оружия по индексу
     }
 
     public void ChangeWeapon(int weaponNum)
@@ -26,7 +23,6 @@ public class WeaponSwitcher : MonoBehaviour
                 i++;
             }
 
-            
             currentWeapon = transform.GetChild(weaponNum).gameObject;
             weapon = currentWeapon.GetComponent<Weapon>();
         }

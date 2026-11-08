@@ -9,11 +9,6 @@ public class MachineGun : Weapon
     [SerializeField] GameObject bullet;
     [SerializeField] float shootForce;
 
-    private void Start()
-    {
-        currentAmmo = maxAmmo;
-    }
-
     void Update()
     {
         if (CanAttack && !reload && attack)
@@ -37,10 +32,10 @@ public class MachineGun : Weapon
         Ray cameraRay = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Vector3 endPoint; // точка выстрела
 
-        if (Physics.Raycast(cameraRay, out RaycastHit hit, range))
+        if (Physics.Raycast(cameraRay, out RaycastHit hit, CurrentStats.Range))
             endPoint = hit.point;
         else 
-            endPoint = cameraRay.GetPoint(75);
+            endPoint = cameraRay.GetPoint(CurrentStats.Range);
         
         // направление из дула к центру камеры
         Vector3 directionWithoutSpread = endPoint - firePoint.position;
@@ -61,7 +56,7 @@ public class MachineGun : Weapon
         // получаем скрипт пули и передаем урон
         if (currentBullet.TryGetComponent(out Bullet bulletScript))
         {
-            bulletScript.Init(damage); // damage — переменная урона из скрипта оружия
+            bulletScript.Init(CurrentStats.Damage);
         }
         
         currentAmmo--;
@@ -96,7 +91,7 @@ public class MachineGun : Weapon
         float animationLength = stateInfo.length; // берем длину анимации в секундах
         yield return new WaitForSeconds(animationLength - 0.001f); // делаем паузу на время анимации, чтобы дать ей завершиться
 
-        currentAmmo = maxAmmo;
+        ResetAmmo();
         reload = false;
     }
 }

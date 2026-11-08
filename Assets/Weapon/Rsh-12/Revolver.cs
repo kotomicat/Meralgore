@@ -6,23 +6,15 @@ public class Revolver : Weapon
     LineRenderer lineRenderer;
 
     [Header("Animation")]
-    public float reloadStep = 1f;
-    public float shootStep = 1f;
     [SerializeField] float traceThinningStep = 0.001f;
-
-    Quaternion shootRotation;
-    Vector3 shootPosition;
-
-    private Quaternion reloadRotation;
 
     [Header("Revolver")]
     [SerializeField] CameraController cameraController;
 
-    private Coroutine showTraceCoroutine;
-
     [Header("Alternative Attack")]
     [SerializeField] GameObject coin;
     [SerializeField] private LayerMask coinLayer;
+
     [SerializeField] float coinThrowUpForce = 5f;
     [SerializeField] float coinThrowForwardForce = 7f;
     [SerializeField] float coinCastRange = 30f;
@@ -74,19 +66,19 @@ public class Revolver : Weapon
         Vector3 endPoint;
 
         // МЕХАНИКА БАЗОВОГО ВЫСТРЕЛА
-        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out RaycastHit hit, range)) // при попадании рейкастом
+        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out RaycastHit hit, CurrentStats.Range)) // при попадании рейкастом
         {
             endPoint = hit.point; // точка попадания
 
             //нанесение урона по объекту если у него есть здоровье
             if (hit.collider.TryGetComponent(out Health health))
             {
-                health.Damage(damage);
+                health.Damage(CurrentStats.Damage);
             }
             else if (hit.transform.parent != null && hit.transform.parent.TryGetComponent(out health))
             {
                 // Замена GetComponentInParent на явный шаг вверх (работает быстрее)
-                health.Damage(damage);
+                health.Damage(CurrentStats.Damage);
             }
 
             SpawnBulletHole(hit.normal, endPoint, hit.transform);
@@ -95,7 +87,7 @@ public class Revolver : Weapon
         }
         else
         {
-            endPoint = cameraRay.GetPoint(range);
+            endPoint = cameraRay.GetPoint(CurrentStats.Range);
             StartCoroutine(ShowTrace(firePoint.position, endPoint));
         }
 
@@ -109,7 +101,7 @@ public class Revolver : Weapon
                 StartCoroutine(ShowTrace(firePoint.position, sphereHit.transform.position, target.position));
 
                 if (target.TryGetComponent(out Health health))
-                    health.Damage(damage * 1.5f);
+                    health.Damage(CurrentStats.Damage * 1.5f);
             }
 
             Destroy(sphereHit.transform.gameObject);
@@ -192,7 +184,11 @@ public class Revolver : Weapon
         float animationLength = stateInfo.length; // берем длину анимации в секундах
         yield return new WaitForSeconds(animationLength - 0.001f); // делаем паузу на время анимации, чтобы дать ей завершиться
 
-        currentAmmo = maxAmmo;
+        if (CurrentStats is IAmmoStats ammo)
+        {
+            currentAmmo = ammo.MaxAmmo;
+        }
+
         reload = false;
     }
 

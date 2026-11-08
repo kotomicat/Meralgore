@@ -11,7 +11,6 @@ public class Hammer : Weapon
     Image rBarImage;
 
     [Header("Damage Scaling")]
-    [SerializeField] float scaleSpeed = 2;
     [SerializeField] float minDamage = 1f;
     public float targetDamage = 0.1f;
 
@@ -51,10 +50,13 @@ public class Hammer : Weapon
 
     private void ChargeUpdate()
     {
-        if (Mathf.Abs(targetDamage - damage) > 0.001f)
+        if (CurrentStats is IChargeableStats charge)
         {
-            targetDamage = Mathf.MoveTowards(targetDamage, damage, Time.deltaTime * scaleSpeed);
-            rBarImage.fillAmount = targetDamage / damage;
+            if (Mathf.Abs(targetDamage - charge.DamageScale) > 0.001f)
+            {
+                targetDamage = Mathf.MoveTowards(targetDamage, CurrentStats.Damage, Time.deltaTime * charge.DamageScale);
+                rBarImage.fillAmount = targetDamage / CurrentStats.Damage;
+            }
         }
     }
 

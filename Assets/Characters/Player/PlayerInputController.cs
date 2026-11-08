@@ -4,7 +4,6 @@ using static PlayerMovement;
 
 public class PlayerInputController : MonoBehaviour
 {
-
     private InputSystem_Actions action;
     private PlayerMovement player;
     private Kick kick;

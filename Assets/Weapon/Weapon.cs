@@ -4,14 +4,12 @@ public abstract class Weapon : MonoBehaviour
 {
     protected Animator animator;
     public Camera mainCamera;
-    
-    [Header("Settings")]
-    public float range = 10f;
-    public float damage = 15f;
-    public float cooldown = 0.5f;
+
+    [Header("Data System")]
+    [SerializeField] private BaseWeaponData baseStatsAsset;
+    public IWeaponStats CurrentStats { get; private set; }
 
     [Header("Ammo")]
-    public int maxAmmo;
     public int currentAmmo;
     public bool reload = false;
 
@@ -23,15 +21,22 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField] private GameObject bulletHoleDecalPrefab;
 
     protected Coroutine reloadCoroutine;
+
     protected float nextAttackTime;
     public bool attack;
+
     public virtual bool CanAttack => Time.time >= nextAttackTime;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
         mainCamera = Camera.main;
-        currentAmmo = maxAmmo;
+        ResetStats();
+    }
+    public void ResetStats() 
+    { 
+        CurrentStats = baseStatsAsset;
+        ResetAmmo();
     }
 
     private void OnEnable() //всегда при активации оружия, сбрасываем старые триггеры и запускаем анимацию экипировки
@@ -48,21 +53,20 @@ public abstract class Weapon : MonoBehaviour
                 animator.ResetTrigger(parameter.name);
         }
     }
-
-    public virtual void StartAttack()
+    protected void ResetLastAttack()
     {
-        
-        Debug.Log("StartAttack");
-        attack = true;
+        nextAttackTime = Time.time + CurrentStats.Cooldown;
     }
 
-    public virtual void EndAttack()
+    protected void ResetAmmo()
     {
-        Debug.Log("EndAttack");
-        attack = false;
+        // если оружие поддерживает интерфейс стрелкового оружия, то 
+        if (CurrentStats is IAmmoStats ammo)
+        {
+            // берем максимальный боезапас в качество текущего
+            currentAmmo = ammo.MaxAmmo;
+        }
     }
-
-    public virtual void StartAltAttack() { }
 
     public void SpawnBulletHole(Vector3 normal, Vector3 point, Transform parent)
     {
@@ -80,12 +84,9 @@ public abstract class Weapon : MonoBehaviour
         Destroy(decal, 10f); //самоуничтожение
     }
 
+    public virtual void StartAttack() { attack = true; }
+    public virtual void EndAttack() { attack = false; }
+    public virtual void StartAltAttack() { }
     public virtual void Attack() { }
-    public virtual void Reload() { }
-
-    protected void ResetLastAttack()
-    {
-        nextAttackTime = Time.time + cooldown;
-    }
-    
+    public virtual void Reload() { }    
 }

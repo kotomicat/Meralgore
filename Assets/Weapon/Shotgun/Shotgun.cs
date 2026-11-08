@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Shotgun : Weapon
 {
-    Transform firePointStarPos;
+    [SerializeField] int pelletsCount;
     [SerializeField] float minSpreadRotation;
     [SerializeField] float maxSpreadRotation;
 
@@ -13,7 +13,7 @@ public class Shotgun : Weapon
 
     void Update()
     {
-        firePointStarPos = firePoint;
+
     }
 
     public override void StartAttack()
@@ -40,13 +40,13 @@ public class Shotgun : Weapon
         Ray cameraForward = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //луч из центра камеры
         Vector3 targetPoint;
 
-        if (Physics.Raycast(cameraForward, out RaycastHit cameraHit, range))
+        if (Physics.Raycast(cameraForward, out RaycastHit cameraHit, CurrentStats.Range))
             targetPoint = cameraHit.point; //при попадания взгляда игрока на объект в пределах дальности, определяем его
         else
-            targetPoint = cameraForward.GetPoint(range); // при взгляде игрока в пустоту, берем точку на максимальной дистанции выстрела
+            targetPoint = cameraForward.GetPoint(CurrentStats.Range); // при взгляде игрока в пустоту, берем точку на максимальной дистанции выстрела
 
         // 2. ЦИКЛ РАЗБРОСА ДРОБИНОК
-        for (int bulletCounter = 10; bulletCounter > 0; bulletCounter--)
+        for (int bulletCounter = pelletsCount; bulletCounter > 0; bulletCounter--)
         {
             // направляем дуло в точку прицела
             firePoint.LookAt(targetPoint);
@@ -62,7 +62,7 @@ public class Shotgun : Weapon
             Vector3 fwd = firePoint.forward;
 
             // нанесение урона, отрисовка декалей (пуль)
-            if (Physics.Raycast(firePoint.position, fwd, out RaycastHit hit, range))
+            if (Physics.Raycast(firePoint.position, fwd, out RaycastHit hit, CurrentStats.Range))
             {
                 Debug.Log($"попадание в {hit.collider.gameObject.name}");
 
@@ -71,7 +71,7 @@ public class Shotgun : Weapon
                 // для распределения урона определяем насколько  
                 mobDistance = Vector3.Distance(transform.position, hit.collider.transform.position);
 
-                float currentDamage = damage / mobDistance / 10;
+                float currentDamage = CurrentStats.Damage / mobDistance / 10;
 
                 // урон
                 if (hit.collider.TryGetComponent(out Health health))
@@ -110,7 +110,7 @@ public class Shotgun : Weapon
         float animationLength = stateInfo.length; // берем длину анимации в секундах
         yield return new WaitForSeconds(animationLength - 0.001f); // делаем паузу на время анимации, чтобы дать ей завершиться
 
-        currentAmmo = maxAmmo;
+        ResetAmmo();
         reload = false;
     }
 }
